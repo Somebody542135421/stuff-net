@@ -1,10 +1,57 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Games</title>
-    </head>
-    <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a1a2e;
+            color: white;
+        }
+        .games-container {
+            background: #16213e;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            border: 1px solid #0f3460;
+            min-width: 300px;
+        }
+        h1 {
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+        }
+        a {
+            display: block;
+            padding: 12px;
+            background: #e94560;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 10px 0;
+        }
+        a:hover {
+            background: #ff2e63;
+        }
+    </style>
+</head>
+<body>
+    <div class="games-container">
         <h1>Games</h1>
-        <a href="private-access.html">private-access.html</a>
-    </body>
+        <a href="private-access.html">Private Access</a>
+    </div>
+</body>
 </html>
