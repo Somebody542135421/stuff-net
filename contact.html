@@ -1,0 +1,288 @@
+
+Carlo <cgv5421@gmail.com>
+7:24 AM (1 minute ago)
+to me
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Carlo Network | Contact Form</title>
+       
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
+
+        <style>
+            /* --- CSS STYLES FOR BLACK & WHITE THEME WITH LEXEND FONT --- */
+           
+            body {
+                background-color: #111111;
+                color: #FFFFFF;
+                font-family: 'Lexend', sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Style to make text readable by screen readers but invisible on screen */
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border-width: 0;
+            }
+
+            /* --- NAVIGATION BAR STYLES --- */
+            .navbar {
+                background-color: #000000;
+                padding: 15px 30px;
+                border-bottom: 1px solid #333333;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                /* Mobile optimization */
+                flex-wrap: wrap;
+            }
+            @media (max-width: 600px) {
+                .navbar {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                .nav-links {
+                    margin-top: 10px;
+                }
+                .nav-links a {
+                    margin: 0 10px;
+                }
+            }
+
+            .logo a {
+                color: #FFFFFF;
+                text-decoration: none;
+                font-size: 1.5em;
+                font-weight: 700;
+            }
+
+            .nav-links a {
+                color: #CCCCCC;
+                text-decoration: none;
+                margin-left: 25px;
+                font-weight: 300;
+                transition: color 0.3s;
+            }
+
+            /* Highlight the current page */
+            .nav-links a[href="contact.html"] {
+                color: #FFFFFF;
+                font-weight: 400;
+                border-bottom: 1px solid #FFFFFF;
+            }
+
+            .nav-links a:hover {
+                color: #FFFFFF;
+            }
+
+            h1 {
+                color: #FFFFFF;
+                border-bottom: 2px solid #FFFFFF;
+                padding-bottom: 10px;
+                font-weight: 700;
+            }
+
+            p {
+                line-height: 1.6;
+                font-weight: 300;
+            }
+
+            .container {
+                /* Use full width on mobile, max-width on desktop */
+                width: 90%;
+                max-width: 800px;
+                margin: 40px auto;
+                background-color: #222222;
+                padding: 30px;
+                border-radius: 8px; /* Slightly more rounded corners for modern look */
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            }
+
+            /* --- FORM STYLES --- */
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            /* ADDED input[type="email"] HERE to match styling */
+            input[type="text"], input[type="email"], textarea {
+                width: 100%;
+                padding: 12px; /* Increased padding for better touch targets */
+                background-color: #333333;
+                border: 1px solid #555555;
+                color: #FFFFFF;
+                font-family: 'Lexend', sans-serif;
+                box-sizing: border-box;
+                resize: vertical;
+                border-radius: 4px;
+            }
+
+            input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+                border-color: #FFFFFF;
+                outline: none;
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            }
+
+            /* --- BUTTON STYLES --- */
+            .suggest-button {
+                background-color: #FFFFFF;
+                color: #111111;
+                border: 2px solid #FFFFFF;
+                padding: 12px 25px;
+                cursor: pointer;
+                transition: background-color 0.3s, color 0.3s, transform 0.1s;
+                font-family: 'Lexend', sans-serif;
+                font-weight: 500; /* Increased weight for button text */
+                text-transform: uppercase;
+                margin-top: 10px;
+                border-radius: 4px;
+                width: 100%; /* Make button full width on mobile */
+                max-width: 250px; /* Limit width on desktop */
+            }
+            @media (min-width: 601px) {
+                .suggest-button {
+                    width: auto;
+                }
+            }
+
+            .suggest-button:hover {
+                background-color: #000000;
+                color: #FFFFFF;
+            }
+            .suggest-button:active {
+                transform: scale(0.98);
+            }
+
+            /* --- MESSAGE STYLE --- */
+            .message {
+                margin-top: 20px;
+                font-weight: 700;
+                padding: 15px;
+                border-radius: 4px;
+                text-align: center;
+                display: none; /* Hidden by default */
+            }
+
+            #success-message {
+                background-color: rgba(0, 255, 0, 0.1);
+                color: #00FF00; /* Subtle green for success */
+                border: 1px solid #00FF00;
+            }
+            #error-message {
+                background-color: rgba(255, 0, 0, 0.1);
+                color: #FF0000; /* Red for error */
+                border: 1px solid #FF0000;
+            }
+
+        </style>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="logo"><a href="index.html">CARLO NETWORK</a></div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="contact.html">Contact</a>
+                <a href="private-access.html">Private Access Codes</a>
+            </div>
+        </nav>
+       
+        <div class="container">
+<h1>Contact Form:</h1>
+            <p>
+                Please use the form below to contact us.
+            </p>
+           
+            <form id="suggestion-form" action="https://formspree.io/f/xeovjlqk" method="POST">
+                <div class="form-group">
+                    <label for="username" class="sr-only">Your Name or Alias</label>
+                    <input type="text" name="name" id="username" placeholder="Your Name/Alias" required maxlength="50" autocomplete="name">
+                </div>
+               
+                <div class="form-group">
+                    <label for="useremail" class="sr-only">Your Email Address</label>
+                    <input **type="email"** name="email" id="useremail" placeholder="Your Email Address" **required** autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label for="suggestion" class="sr-only">Form</label>
+                    <textarea name="suggestion" id="suggestion" rows="7" placeholder="Your message content..." required></textarea>
+                </div>
+                <button type="submit" class="suggest-button">Send Form</button>
+            </form>
+           
+            <div id="success-message" class="message">
+                ✅ Form successfully sent! We appreciate your message and will be in touch if necessary.
+            </div>
+           
+            <div id="error-message" class="message">
+                ❌ Oops! There was an error sending your form. Please check your connection and try again.
+            </div>
+        </div>
+
+        <script>
+            // Get form and message references
+            const form = document.getElementById('suggestion-form');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+
+            /**
+             * Hides the given message element after a timeout.
+             * @param {HTMLElement} element
+             */
+            function hideMessage(element) {
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 5000);
+            }
+
+            // Listen for the form submission
+            form.addEventListener('submit', async function(event) {
+                event.preventDefault(); // Prevent default submission
+               
+                // Hide any existing messages
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        // Success: Clear the form and show the success message
+                        form.reset();
+                        successMessage.style.display = 'block';
+                        hideMessage(successMessage);
+                    } else {
+                        // Failure: Show the specific error message
+                        errorMessage.style.display = 'block';
+                        hideMessage(errorMessage);
+                        // Log detailed error to console (not user-facing)
+                        const errorData = await response.json();
+                        console.error('Form Submission Error:', response.status, errorData);
+                    }
+                } catch (error) {
+                    // Network/fetch error
+                    console.error('Network Error:', error);
+                    errorMessage.style.display = 'block';
+                    hideMessage(errorMessage);
+                }
+            });
+        </script>
+    </body>
+</html>
