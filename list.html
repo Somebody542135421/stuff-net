@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,10 +28,22 @@
             width: 100%;
         }
         h1 {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             font-size: 2rem;
             text-transform: uppercase;
             letter-spacing: 0.2rem;
+        }
+        .notice {
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid #e94560;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .notice p {
+            margin: 0;
         }
         .link-list {
             display: flex;
@@ -60,7 +73,9 @@
 <body>
     <div class="links-container">
         <h1>Links</h1>
-        <p1>If moto at first seems to be banned come back to this page a reclick the link. DO NOT REFRESH THE GAME PAGE! <br><br> </p1>
+        <div class="notice">
+            <p>If Moto at first seems to be banned, come back to this page and reclick the link. DO NOT REFRESH THE GAME PAGE!</p>
+        </div>
         <div class="link-list">
             <a href="game.html">Moto X3M</a>
             <a href="game1.html">Drift Boss</a>
