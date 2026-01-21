@@ -82,101 +82,93 @@
             color: #ff2e63;
             font-weight: bold;
         }
-
-```
-    /* Links page styles */
-    .links-container {
-        background: #16213e;
-        padding: 2.5rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        text-align: center;
-        border: 1px solid #0f3460;
-        max-width: 500px;
-        width: 100%;
-        display: none;
-    }
-    .links-container.active {
-        display: block;
-    }
-    h1 {
-        margin-bottom: 1.5rem;
-        font-size: 2rem;
-        text-transform: uppercase;
-        letter-spacing: 0.2rem;
-    }
-    .notice {
-        background: rgba(233, 69, 96, 0.1);
-        border: 1px solid #e94560;
-        border-radius: 6px;
-        padding: 1rem;
-        margin-bottom: 2rem;
-        font-size: 1rem;
-        line-height: 1.6;
-    }
-    .notice h2 {
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-    }
-    .notice p {
-        margin: 0;
-        background: #1e90ff;
-        color: white;
-        padding: 10px;
-        border-radius: 4px;
-        font-weight: bold;
-    }
-    .link-list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    a {
-        display: block;
-        padding: 15px 20px;
-        background: #0f3460;
-        color: white;
-        font-weight: bold;
-        text-transform: uppercase;
-        text-decoration: none;
-        border-radius: 8px;
-        border: 2px solid #e94560;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    a:hover {
-        background: #e94560;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
-    }
-    
-    .fade-out {
-        animation: fadeOut 0.5s forwards;
-    }
-    .fade-in {
-        animation: fadeIn 0.5s forwards;
-    }
-    
-    @keyframes fadeOut {
-        to {
-            opacity: 0;
-            transform: scale(0.95);
+        .links-container {
+            background: #16213e;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            border: 1px solid #0f3460;
+            max-width: 500px;
+            width: 100%;
+            display: none;
         }
-    }
-    
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: scale(0.95);
+        .links-container.active {
+            display: block;
         }
-        to {
-            opacity: 1;
-            transform: scale(1);
+        h1 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
         }
-    }
-</style>
-```
-
+        .notice {
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid #e94560;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .notice h2 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .notice p {
+            margin: 0;
+            background: #1e90ff;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        a {
+            display: block;
+            padding: 15px 20px;
+            background: #0f3460;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 2px solid #e94560;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        a:hover {
+            background: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s forwards;
+        }
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -200,15 +192,8 @@
 
 <div class="links-container" id="linksContainer">
     <h1>Links</h1>
-    <div class="notice">
-        <h2>Slope, Retro Bowl, Poly Trax, Stickman Hook, and more are coming on friday!</h2>
-        <p>(If Moto at first seems to be banned, come back to this page and reclick the link. DO NOT REFRESH THE GAME PAGE!)</p>
-    </div>
-    <div class="link-list">
-        <a href="game.html">Moto X3M</a>
-        <a href="game1.html">Drift Boss</a>
-        <a href="game2.html">Google Doodle Baseball</a>
-        <a href="game3.html">Drive Mad</a>
+    <div class="link-list" id="linkList">
+        <!-- Links will be dynamically inserted here after successful authentication -->
     </div>
 </div>
 
@@ -220,6 +205,7 @@
     const submitBtn = form.querySelector('button');
     const codeContainer = document.getElementById('codeContainer');
     const linksContainer = document.getElementById('linksContainer');
+    const linkList = document.getElementById('linkList');
     
     // SHA-256 hash function
     async function sha256(message) {
@@ -230,10 +216,8 @@
         return hashHex;
     }
     
-    // The correct code hashed with SHA-256 and salted
-    // Original code: "5040500040504050" + salt
-    const SALT = "x9K2mP7qL4nR8vW3";
-    const CORRECT_HASH = "8e7d4f3a2b1c9e6d5a4f3b2c1d9e8f7a6b5c4d3e2f1a9b8c7d6e5f4a3b2c1d0e";
+    // The correct code hashed with SHA-256
+    const CORRECT_HASH = "0ca9666e52813217828e5368560ed5f13ff790205ab514dfb0d22814fd01a93f";
     
     let attempts = 0;
     const MAX_ATTEMPTS = 2;
@@ -255,13 +239,16 @@
         
         const code = input.value.trim();
         
-        // Hash the entered code with salt
-        const hashedInput = await sha256(code + SALT);
+        // Hash the entered code
+        const hashedInput = await sha256(code);
         
         if (hashedInput === CORRECT_HASH) {
             msg.textContent = "Access Granted!";
             msg.style.color = "#4ade80";
             localStorage.removeItem('lockoutUntil');
+            
+            // Generate links only after successful authentication
+            generateLinks();
             
             // Fade out the code container and fade in the links container
             codeContainer.classList.add('fade-out');
@@ -283,6 +270,23 @@
         }
     };
     
+    function generateLinks() {
+        // Links are only created after successful authentication
+        const links = [
+            { text: 'Moto X3M', url: 'game.html' },
+            { text: 'Drift Boss', url: 'game1.html' },
+            { text: 'Google Doodle Baseball', url: 'game2.html' },
+            { text: 'Drive Mad', url: 'game3.html' }
+        ];
+        
+        links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.url;
+            a.textContent = link.text;
+            linkList.appendChild(a);
+        });
+    }
+    
     function updateAttemptsDisplay() {
         if (attempts > 0 && attempts < MAX_ATTEMPTS) {
             attemptsDiv.textContent = `Attempts used: ${attempts}/${MAX_ATTEMPTS}`;
@@ -290,7 +294,6 @@
     }
     
     function lockout() {
-        // Lock out until end of day (midnight)
         const now = new Date();
         const endOfDay = new Date(now);
         endOfDay.setHours(23, 59, 59, 999);
@@ -298,7 +301,6 @@
         
         localStorage.setItem('lockoutUntil', lockoutUntil.toString());
         
-        // Calculate hours and minutes remaining
         const timeRemaining = lockoutUntil - Date.now();
         const hoursRemaining = Math.floor(timeRemaining / (60 * 60 * 1000));
         const minutesRemaining = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
@@ -308,7 +310,6 @@
         input.disabled = true;
         submitBtn.disabled = true;
         
-        // Optionally redirect to a lockout page
         setTimeout(() => {
             window.location.href = "about:blank";
         }, 3000);
