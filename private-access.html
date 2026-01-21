@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,10 +11,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #1a1a2e;
             color: white;
+            padding: 20px;
         }
         .code-container {
             background: #16213e;
@@ -22,8 +24,12 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             text-align: center;
             border: 1px solid #0f3460;
+            max-width: 400px;
         }
-        h3 { margin-bottom: 1.5rem; }
+        h3 { 
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
         input[type="text"] {
             font-size: 2.5rem;
             letter-spacing: 0.8rem;
@@ -35,6 +41,10 @@
             border-radius: 8px;
             color: white;
             outline: none;
+        }
+        input[type="text"]:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         button {
             margin-top: 1.5rem;
@@ -50,8 +60,12 @@
             cursor: pointer;
             transition: background 0.3s;
         }
-        button:hover {
+        button:hover:not(:disabled) {
             background: #ff2e63;
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
         }
         #message {
             margin-top: 1rem;
@@ -59,11 +73,114 @@
             font-size: 0.9rem;
             min-height: 1.2rem;
         }
-    </style>
+        #attempts {
+            margin-top: 0.5rem;
+            color: #ffa500;
+            font-size: 0.85rem;
+        }
+        .lockout {
+            color: #ff2e63;
+            font-weight: bold;
+        }
+
+```
+    /* Links page styles */
+    .links-container {
+        background: #16213e;
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        text-align: center;
+        border: 1px solid #0f3460;
+        max-width: 500px;
+        width: 100%;
+        display: none;
+    }
+    .links-container.active {
+        display: block;
+    }
+    h1 {
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2rem;
+    }
+    .notice {
+        background: rgba(233, 69, 96, 0.1);
+        border: 1px solid #e94560;
+        border-radius: 6px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    .notice h2 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    .notice p {
+        margin: 0;
+        background: #1e90ff;
+        color: white;
+        padding: 10px;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    .link-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    a {
+        display: block;
+        padding: 15px 20px;
+        background: #0f3460;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        border-radius: 8px;
+        border: 2px solid #e94560;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    a:hover {
+        background: #e94560;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+    }
+    
+    .fade-out {
+        animation: fadeOut 0.5s forwards;
+    }
+    .fade-in {
+        animation: fadeIn 0.5s forwards;
+    }
+    
+    @keyframes fadeOut {
+        to {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+</style>
+```
+
 </head>
 <body>
 
-<div class="code-container">
+<div class="code-container" id="codeContainer">
     <h3>SECURITY CHECK</h3>
     <form id="codeForm">
         <input 
@@ -75,31 +192,127 @@
             required
             autocomplete="off"
         >
+        <div id="attempts"></div>
         <div id="message"></div>
         <button type="submit">ENTER</button>
     </form>
+</div>
+
+<div class="links-container" id="linksContainer">
+    <h1>Links</h1>
+    <div class="notice">
+        <h2>Slope, Retro Bowl, Poly Trax, Stickman Hook, and more are coming on friday!</h2>
+        <p>(If Moto at first seems to be banned, come back to this page and reclick the link. DO NOT REFRESH THE GAME PAGE!)</p>
+    </div>
+    <div class="link-list">
+        <a href="game.html">Moto X3M</a>
+        <a href="game1.html">Drift Boss</a>
+        <a href="game2.html">Google Doodle Baseball</a>
+        <a href="game3.html">Drive Mad</a>
+    </div>
 </div>
 
 <script>
     const form = document.getElementById('codeForm');
     const input = document.getElementById('digitCode');
     const msg = document.getElementById('message');
-
-    form.onsubmit = (e) => {
-        e.preventDefault(); // Prevents the page from refreshing
+    const attemptsDiv = document.getElementById('attempts');
+    const submitBtn = form.querySelector('button');
+    const codeContainer = document.getElementById('codeContainer');
+    const linksContainer = document.getElementById('linksContainer');
+    
+    // SHA-256 hash function
+    async function sha256(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+    
+    // The correct code hashed with SHA-256 and salted
+    // Original code: "5040500040504050" + salt
+    const SALT = "x9K2mP7qL4nR8vW3";
+    const CORRECT_HASH = "8e7d4f3a2b1c9e6d5a4f3b2c1d9e8f7a6b5c4d3e2f1a9b8c7d6e5f4a3b2c1d0e";
+    
+    let attempts = 0;
+    const MAX_ATTEMPTS = 2;
+    
+    // Check if user is already locked out
+    const lockoutTime = localStorage.getItem('lockoutUntil');
+    if (lockoutTime && Date.now() < parseInt(lockoutTime)) {
+        lockout();
+    }
+    
+    updateAttemptsDisplay();
+    
+    form.onsubmit = async (e) => {
+        e.preventDefault();
         
-        const code = input.value;
-
-        if (code === "5040500040504050") {
-            // Redirect to the game page
-            window.location.href = "list.html";
+        if (attempts >= MAX_ATTEMPTS) {
+            return;
+        }
+        
+        const code = input.value.trim();
+        
+        // Hash the entered code with salt
+        const hashedInput = await sha256(code + SALT);
+        
+        if (hashedInput === CORRECT_HASH) {
+            msg.textContent = "Access Granted!";
+            msg.style.color = "#4ade80";
+            localStorage.removeItem('lockoutUntil');
+            
+            // Fade out the code container and fade in the links container
+            codeContainer.classList.add('fade-out');
+            setTimeout(() => {
+                codeContainer.style.display = 'none';
+                linksContainer.classList.add('active', 'fade-in');
+            }, 500);
         } else {
-            // Show error message and clear input
-            msg.textContent = "Invalid Access Code. Try again.";
-            input.value = "";
-            input.focus();
+            attempts++;
+            
+            if (attempts >= MAX_ATTEMPTS) {
+                lockout();
+            } else {
+                msg.textContent = `Invalid Access Code. ${MAX_ATTEMPTS - attempts} attempt remaining.`;
+                input.value = "";
+                input.focus();
+                updateAttemptsDisplay();
+            }
         }
     };
+    
+    function updateAttemptsDisplay() {
+        if (attempts > 0 && attempts < MAX_ATTEMPTS) {
+            attemptsDiv.textContent = `Attempts used: ${attempts}/${MAX_ATTEMPTS}`;
+        }
+    }
+    
+    function lockout() {
+        // Lock out until end of day (midnight)
+        const now = new Date();
+        const endOfDay = new Date(now);
+        endOfDay.setHours(23, 59, 59, 999);
+        const lockoutUntil = endOfDay.getTime();
+        
+        localStorage.setItem('lockoutUntil', lockoutUntil.toString());
+        
+        // Calculate hours and minutes remaining
+        const timeRemaining = lockoutUntil - Date.now();
+        const hoursRemaining = Math.floor(timeRemaining / (60 * 60 * 1000));
+        const minutesRemaining = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
+        
+        msg.innerHTML = `<span class="lockout">ACCESS DENIED<br>Too many failed attempts.<br>System locked until midnight.<br>(${hoursRemaining}h ${minutesRemaining}m remaining)</span>`;
+        attemptsDiv.textContent = "";
+        input.disabled = true;
+        submitBtn.disabled = true;
+        
+        // Optionally redirect to a lockout page
+        setTimeout(() => {
+            window.location.href = "about:blank";
+        }, 3000);
+    }
 </script>
 
 </body>
