@@ -204,8 +204,7 @@
 
 <div class="links-container" id="linksContainer">
     <h1>Links</h1>
-    <h2>Maden, Mlb the Show, and more are coming on<br>1-26-2026</h2>
-	<p>We take requests!</p>
+	<h2>We take requests!</h2>
         <div class="link-list" id="linkList">
         <!-- Links will be dynamically inserted here after successful authentication -->
     </div>
@@ -231,10 +230,10 @@
     }
     
     // The correct code hashed with SHA-256
-    const CORRECT_HASH = "0ca9666e52813217828e5368560ed5f13ff790205ab514dfb0d22814fd01a93f";
+    const CORRECT_HASH = "7ff3182ef20860f5b23695c2e149bca50bcdab2f61129e3db609f75368ba8b02";
     
     let attempts = 0;
-    const MAX_ATTEMPTS = 2;
+    const MAX_ATTEMPTS = 1;
     
     // Check if user is already locked out
     const lockoutTime = localStorage.getItem('lockoutUntil');
@@ -287,9 +286,12 @@
     function generateLinks() {
         // Links are only created after successful authentication
         const links = [
-            { text: 'Moto X3M', url: 'game.html' },
+            { text: 'CatNitro', url: 'game0.html' },
+            { text: 'MathLab', url: 'game1.html' },
+            { text: 'Cool Math Games', url: 'game2.html' },
+            { text: 'Math Playground', url: 'game3.html' },
             { text: 'Everything below is in progress', separator: true },
-            { text: 'idk', url: 'game1.html' },
+            { text: 'Madden', url: 'game.html' },
         ];
         
         links.forEach(link => {
