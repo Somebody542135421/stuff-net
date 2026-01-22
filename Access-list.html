@@ -96,6 +96,42 @@
         .links-container.active {
             display: block;
         }
+        .embed-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a2e;
+            z-index: 1000;
+            display: none;
+        }
+        .embed-container.active {
+            display: block;
+        }
+        .embed-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background: #e94560;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background: #ff2e63;
+        }
         h1 {
             margin-bottom: 1.5rem;
             font-size: 2rem;
@@ -128,7 +164,7 @@
             flex-direction: column;
             gap: 15px;
         }
-        a {
+        a, .link-button {
             display: block;
             padding: 15px 20px;
             background: #0f3460;
@@ -141,7 +177,7 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        a:hover {
+        a:hover, .link-button:hover {
             background: #e94560;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
@@ -190,7 +226,7 @@
         <input 
             type="text" 
             id="digitCode" 
-            maxlength="8" 
+            maxlength="11" 
             inputmode="numeric" 
             placeholder="****" 
             required
@@ -204,10 +240,15 @@
 
 <div class="links-container" id="linksContainer">
     <h1>Links</h1>
-	<h2>We take requests!</h2>
-        <div class="link-list" id="linkList">
+    <h2>We take requests!</h2>
+    <div class="link-list" id="linkList">
         <!-- Links will be dynamically inserted here after successful authentication -->
     </div>
+</div>
+
+<div class="embed-container" id="embedContainer">
+    <button class="back-button" id="backButton">← BACK TO MENU</button>
+    <iframe id="embedFrame" src=""></iframe>
 </div>
 
 <script>
@@ -219,6 +260,9 @@
     const codeContainer = document.getElementById('codeContainer');
     const linksContainer = document.getElementById('linksContainer');
     const linkList = document.getElementById('linkList');
+    const embedContainer = document.getElementById('embedContainer');
+    const embedFrame = document.getElementById('embedFrame');
+    const backButton = document.getElementById('backButton');
     
     // SHA-256 hash function
     async function sha256(message) {
@@ -283,14 +327,28 @@
         }
     };
     
+    function showEmbed(url) {
+        embedFrame.src = url;
+        linksContainer.style.display = 'none';
+        embedContainer.classList.add('active');
+    }
+    
+    function hideEmbed() {
+        embedFrame.src = '';
+        embedContainer.classList.remove('active');
+        linksContainer.style.display = 'block';
+    }
+    
+    backButton.onclick = hideEmbed;
+    
     function generateLinks() {
         // Links are only created after successful authentication
         const links = [
-            { text: 'CatNitro', url: 'game0.html' },
-            { text: 'MathLab', url: 'game1.html' },
+            { text: 'CatNitro', embed: 'https://brilliantlightingdesign.com' },
+            { text: 'MathLab', embed: 'https://mathlab.today' },
+            { text: 'Everything below is in progress', separator: true },
             { text: 'Cool Math Games', url: 'game2.html' },
             { text: 'Math Playground', url: 'game3.html' },
-            { text: 'Everything below is in progress', separator: true },
             { text: 'Madden', url: 'game.html' },
         ];
         
@@ -300,6 +358,12 @@
                 div.className = 'separator';
                 div.textContent = link.text;
                 linkList.appendChild(div);
+            } else if (link.embed) {
+                const btn = document.createElement('div');
+                btn.className = 'link-button';
+                btn.textContent = link.text;
+                btn.onclick = () => showEmbed(link.embed);
+                linkList.appendChild(btn);
             } else {
                 const a = document.createElement('a');
                 a.href = link.url;
