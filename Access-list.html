@@ -146,6 +146,18 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
         }
+        .separator {
+            display: block;
+            padding: 10px 20px;
+            background: rgba(233, 69, 96, 0.2);
+            color: #ffa500;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 8px;
+            border: 2px dashed #e94560;
+            cursor: default;
+            pointer-events: none;
+        }
         .fade-out {
             animation: fadeOut 0.5s forwards;
         }
@@ -192,7 +204,7 @@
 
 <div class="links-container" id="linksContainer">
     <h1>Links</h1>
-    <h2>Maden, Mlb the Show, and more are coming on 1-26-2026</h2>
+    <h2>Maden, Mlb the Show, and more are coming on<br>1-26-2026</h2>
 	<p>We take requests!</p>
         <div class="link-list" id="linkList">
         <!-- Links will be dynamically inserted here after successful authentication -->
@@ -278,18 +290,25 @@
             { text: 'Moto X3M', url: 'game.html' },
             { text: 'Drift Boss', url: 'game1.html' },
             { text: 'Google Doodle Baseball', url: 'game2.html' },
-            { text: 'Drive Mad', url: 'game3.html' }
-            { text: 'Everything below is in progress' }
-            { text: 'Slope', url: 'game4.html' }
-            { text: 'Polytrax', url: 'game5.html' }
+            { text: 'Drive Mad', url: 'game3.html' },
+            { text: 'Everything below is in progress', separator: true },
+            { text: 'Slope', url: 'game4.html' },
+            { text: 'Polytrax', url: 'game5.html' },
             { text: 'Techno Bowl', url: 'game6.html' }
         ];
         
         links.forEach(link => {
-            const a = document.createElement('a');
-            a.href = link.url;
-            a.textContent = link.text;
-            linkList.appendChild(a);
+            if (link.separator) {
+                const div = document.createElement('div');
+                div.className = 'separator';
+                div.textContent = link.text;
+                linkList.appendChild(div);
+            } else {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.textContent = link.text;
+                linkList.appendChild(a);
+            }
         });
     }
     
